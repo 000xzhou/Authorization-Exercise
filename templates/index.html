@@ -3,21 +3,14 @@
 <!-- main clock content starts here -->
 {% block content %}
 
-<form method="POST" action="{{ url_for('register') }}">
+<form method="POST" action="{{ action_url }}">
   {{ form.hidden_tag() }}
-
-  <!-- {% for field in form if field.widget.input_type != 'hidden' %}
-  <p>
-    {{ field.label }} {{ field }} {% for error in field.errors %} {{ error }} {%
-    endfor %}
-  </p>
-  {% endfor %} -->
-
-  <p>{{ form.username.label }}<br />{{ form.username }}</p>
-  <p>{{ form.password.label }}<br />{{ form.password }}</p>
-  <p>{{ form.email.label }}<br />{{ form.email }}</p>
-  <p>{{ form.first_name.label }}<br />{{ form.first_name }}</p>
-  <p>{{ form.last_name.label }}<br />{{ form.last_name }}</p>
-  <p>{{ form.submit }}</p>
+  <!-- form  -->
+  {% for field in form if field.widget.input_type != 'hidden' %} {% if
+  field.type != 'SubmitField' %} {{ field.label }} {{ field }} {% for error in
+  field.errors %} {{ error }} {% endfor %} {% else %} {{ field }}
+  <!-- Display the submit button without its label -->
+  {% endif %} {% endfor %}
 </form>
+
 {% endblock %}

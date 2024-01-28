@@ -18,7 +18,8 @@ connect_db(app)
 with app.app_context():
     db.create_all()
 
-from forms import RegistrationForm
+# -------------------forms --------------------
+from forms import RegistrationForm,LoginForm
 
 @app.route('/')
 def homepage():
@@ -28,12 +29,17 @@ def homepage():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        # ensuring the user is authenticated
         return redirect(url_for('secret'))
-    return render_template("index.html", form=form)
+    return render_template("index.html", form=form, action_url=url_for('register'))
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template("index.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        # ensuring the user is authenticated
+        return redirect(url_for('secret'))
+    return render_template("index.html", form=form ,action_url=url_for('login'))
 
 @app.route('/secret')
 def secret():
