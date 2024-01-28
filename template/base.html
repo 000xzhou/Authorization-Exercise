@@ -1,0 +1,31 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Home{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <nav>
+      <!-- Navigation links go here -->
+      <a href="/">Home</a>
+      <a href="/register ">register</a>
+      <a href="/login">login</a>
+    </nav>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+    <!-- main content  -->
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer>
+      <!-- Footer content goes here -->
+    </footer>
+  </body>
+</html>

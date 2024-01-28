@@ -2,28 +2,6 @@
 
 In this exercise, we’ll be creating an application that lets users sign up and log in to their own accounts. Once logged in, users can add feedback, edit their feedback, delete their feedback, and see a list of all feedback that they’ve given. Many of these routes should be protected, so that for example *user1* can’t edit a piece of feedback that *user2* created. (More on this below.)
 
-## **Part 0: Set up your environment**
-
-You know the drill. Make a venv, pip install all the things, put your code on GitHub, etc.
-
-## **Part 1: Create User Model**
-
-First, create a **_User_** model for SQLAlchemy. Put this in a **_models.py_** file.
-
-It should have the following columns:
-
-- **_username_** - a unique primary key that is no longer than 20 characters.
-- **_password_** - a not-nullable column that is text
-- **_email_** - a not-nullable column that is unique and no longer than 50 characters.
-- **_first_name_** - a not-nullable column that is no longer than 30 characters.
-- **_last_name_** - a not-nullable column that is no longer than 30 characters.
-
-## **Part 2: Make a Base Template**
-
-Add a base template with slots for the page title and content. Your other templates should use this.
-
-You can use Bootstrap for this project, but don’t spend a lot of time worrying about styling — this is **not** a goal of this exercise.
-
 ## **Part 3: Make Routes For Users**
 
 Make routes for the following:
