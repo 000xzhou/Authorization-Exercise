@@ -4,28 +4,6 @@
 - flask-wtf
 - load_dotenv
 
-## **Part 3: Make Routes For Users**
-
-Make routes for the following:
-
-**GET */ :*** Redirect to /register.
-
-**GET */register :*** Show a form that when submitted will register/create a user. This form should accept a username, password, email, first_name, and last_name. Make sure you are using WTForms and that your password input hides the characters that the user is typing!
-
-**POST */register :*** Process the registration form by adding a new user. Then redirect to **_/secret_**
-
-**GET */login :*** Show a form that when submitted will login a user. This form should accept a username and a password. Make sure you are using WTForms and that your password input hides the characters that the user is typing!
-
-**POST */login :*** Process the login form, ensuring the user is authenticated and going to **_/secret_** if so.
-
-**GET */secret :*** Return the text “You made it!” (don’t worry, we’ll get rid of this soon)
-
-## **Part 4: Don’t let everyone go to */secret***
-
-Despite all of this wonderful password hashing that you have been doing, anyone can navigate to **_/secret_** and see the text “You made it!”. Let’s protect this route and make sure that only users who have logged in can access this route!
-
-To do that, we’re going to make sure that when we log a user in (and after they register), we store just a little information in the session. When the user successfully registers or logs in, store the **_username_** in the session.
-
 ## **Part 5: Log out users**
 
 Make routes for the following:
