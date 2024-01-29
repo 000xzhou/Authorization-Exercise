@@ -21,6 +21,8 @@ class User(db.Model):
     # last_name - a not-nullable column that is no longer than 30 characters.
     last_name = db.Column(db.String(30), nullable=False)
     
+    feedbacks = db.relationship('Feedback', backref='user', cascade="all, delete-orphan")
+    
 class Feedback(db.Model):
     __tablename__ = "feedbacks"
     

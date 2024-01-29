@@ -30,7 +30,6 @@ def register():
     if 'username' in session:
         return redirect(url_for('user_info', username=session['username']))
         
-        
     form = RegistrationForm()
     if form.validate_on_submit():
         # ensuring the user is authenticated
@@ -88,6 +87,35 @@ def logout():
     # only delete username session
     session.pop('username', None)
     return redirect(url_for("home"))
+
+@app.route(' /users/<username>/delete', methods=['POST'])
+def delete_username(username):
+    # delete user 
+    
+    session.pop('username', None)
+    return redirect(url_for("home"))
+
+@app.route('/users/<username>/feedback/add', methods=['GET', 'POST'])
+def add_feedback(username):
+    user = session.get('username')
+    if user and user.username == username:
+    # Make sure that only the user who is logged in can see this form.
+    # Make sure that only the user who is logged in can successfully add feedback.
+        return redirect(url_for("user_info", user=user))
+    
+@app.route('/feedback/<feedback_id>/update', methods=['GET', 'POST'])
+def update_feedback(feedback_id):
+    user = session.get('username')
+    if user:
+    # Make sure that only the user who has written that feedback can see this form
+        return redirect(url_for("user_info", user=user))
+    
+@app.route('/feedback/<feedback_id>/delete', methods=['POST'])
+def delete_feedback(feedback_id):
+    user = session.get('username')
+    if user:
+    # Make sure that only the user who has written that feedback can delete it.
+        return redirect(url_for("user_info", user=user))
 
 @app.errorhandler(404)
 def not_found_error(error):
