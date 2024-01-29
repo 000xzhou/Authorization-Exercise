@@ -1,5 +1,5 @@
-from flask import Flask, render_template, redirect, request, url_for, flash, session
-from models import db, connect_db, User
+from flask import Flask, render_template, redirect, request, url_for, flash, session, abort
+from models import db, connect_db, User, Feedback
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -19,7 +19,7 @@ with app.app_context():
     db.create_all()
 
 # -------------------forms --------------------
-from forms import RegistrationForm,LoginForm
+from forms import RegistrationForm,LoginForm,FeedbackForm
 
 @app.route('/')
 def home():
@@ -88,20 +88,41 @@ def logout():
     session.pop('username', None)
     return redirect(url_for("home"))
 
-@app.route(' /users/<username>/delete', methods=['POST'])
+@app.route('/users/<username>/delete')
 def delete_username(username):
     # delete user 
+    user = session.get('username')
+    get_user = User.query.get_or_404(username)
     
-    session.pop('username', None)
+    if get_user.username == user:
+        db.session.delete(get_user)
+        db.session.commit()
+        session.pop('username', None)
     return redirect(url_for("home"))
+    
 
 @app.route('/users/<username>/feedback/add', methods=['GET', 'POST'])
 def add_feedback(username):
     user = session.get('username')
-    if user and user.username == username:
-    # Make sure that only the user who is logged in can see this form.
-    # Make sure that only the user who is logged in can successfully add feedback.
-        return redirect(url_for("user_info", user=user))
+    get_user = User.query.get_or_404(username)
+    
+    if get_user.username == user:
+        form = FeedbackForm(username=username)
+        if form.validate_on_submit():
+            # add to db
+            username = form.username.data
+            title = form.title.data
+            content = form.content.data
+            # add to db 
+            new_feedback = Feedback(username=username, title=title, content=content)
+            db.session.add(new_feedback)
+            db.session.commit()
+            return redirect(url_for("user_info", username=user))
+        return render_template("feedback_form.html", form=form, action_url=url_for('add_feedback', username=username), user = username)
+    else:
+        flash("can't submit for other users")
+        return redirect(url_for("home"))
+
     
 @app.route('/feedback/<feedback_id>/update', methods=['GET', 'POST'])
 def update_feedback(feedback_id):

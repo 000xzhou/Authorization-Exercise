@@ -1,5 +1,9 @@
-{% extends 'base.html' %} {% block title %}User Info{% endblock %}
-
+{% extends 'base.html' %} {% block title %}User Info{% endblock %} {% block
+login %} {{user.username}}
+<a href="/logout">logout</a>
+{% endblock %}
 <!-- main clock content starts here -->
 {% block content %}{{user.username}} {{user.email}} {{user.first_name}}
-{{user.last_name}} {% endblock %}
+{{user.last_name}}
+<a class="link-btn" href="/users/{{user.username}}/feedback/add">feedback</a>
+{% endblock %}

@@ -4,6 +4,8 @@
 - flask-wtf
 - load_dotenv
 
+## still need to hash the password
+
 ## **Part 8: Make/Modify Routes For Users and Feedback**
 
 **GET */users/<username> :*** Show information about the given user. Show all of the feedback that the user has given. For each piece of feedback, display with a link to a form to edit the feedback and a button to delete the feedback. Have a link that sends you to a form to add more feedback and a button to delete the user **Make sure that only the user who is logged in can successfully view this page.**
