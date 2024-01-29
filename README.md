@@ -4,31 +4,6 @@
 - flask-wtf
 - load_dotenv
 
-## **Part 5: Log out users**
-
-Make routes for the following:
-
-**GET */logout :*** Clear any information from the session and redirect to **_/_**
-
-## **Part 6: Let’s change */secret* to */users/<username>***
-
-Now that we have some logging in and and logging out working. Let’s add some authorization! When a user logs in, take them to the following route:
-
-**GET */users/<username> :*** Display a template the shows information about that user (everything except for their password). You should ensure that only logged in users can access this page.
-
-## **Part 7: Give us some more feedback!**
-
-It’s time to add another model.
-
-Create a **_Feedback_** model for SQLAlchemy. Put this in a **_models.py_** file.
-
-It should have the following columns:
-
-- **_id_** - a unique primary key that is an auto incrementing integer
-- **_title_** - a not-nullable column that is at most 100 characters
-- **_content_** - a not-nullable column that is text
-- **_username_** - a foreign key that references the username column in the users table
-
 ## **Part 8: Make/Modify Routes For Users and Feedback**
 
 **GET */users/<username> :*** Show information about the given user. Show all of the feedback that the user has given. For each piece of feedback, display with a link to a form to edit the feedback and a button to delete the feedback. Have a link that sends you to a form to add more feedback and a button to delete the user **Make sure that only the user who is logged in can successfully view this page.**
