@@ -10,7 +10,7 @@
   field.type != 'SubmitField' %} {{ field.label }} {{ field }} {% for error in
   field.errors %} {{ error }} {% endfor %} {% else %} {{ field }}
   <!-- Display the submit button without its label -->
-  {% endif %} {% endfor %}
+  {% if error %}{{error}}{% endif %} {% endif %} {% endfor %}
 </form>
 
 {% endblock %}

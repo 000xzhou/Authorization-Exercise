@@ -27,11 +27,22 @@ def home():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if 'username' in session:
+        return redirect(url_for('user_info', username=session['username']))
+        
+        
     form = RegistrationForm()
     if form.validate_on_submit():
         # ensuring the user is authenticated
         username = form.username.data
+        password = form.password.data
+        email = form.email.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
         # add to db 
+        new_user = User(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+        db.session.add(new_user)
+        db.session.commit()
         session['username'] = username
         
         return redirect(url_for('user_info', username=username))
@@ -40,28 +51,37 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'username' in session:
+        return redirect(url_for('user_info', username=session['username']))
+    
     form = LoginForm()
+    error = request.args.get('error')
     if form.validate_on_submit():
         # ensuring the user is authenticated
         username = form.username.data
         password = form.password.data
-        # check if user + pass is in database and is correct 
-        user = User.query.get_or_404(username, description="User not found")
-        if user.password == password :
-            session['username'] = user.username
-            return redirect(url_for('user_info', username=username))
-        else :
-            return redirect(url_for('login'))
-        
-    return render_template("index.html", form=form ,action_url=url_for('login'))
+        # user = User.query.get_or_404(username, description="User not found")
+        user = User.query.get(username)
+        if user:
+            # check if user + pass is in database and is correct 
+            if user.password == password :
+                session['username'] = user.username
+                return redirect(url_for('user_info', username=username))
+            else :
+                return redirect(url_for('login', error="password incorrect"))
+        else:
+            return redirect(url_for('login', error="username not found"))
+            
+    return render_template("index.html", form=form ,action_url=url_for('login'), error=error)
 
 @app.route('/users/<username>')
 def user_info(username):    
     user = session.get('username')
-    if user and user == username:
-        return render_template("user_info.html")
-    else:
-        return "Not allow"
+    # atm any login user can view any user 
+    if user:
+        get_user = User.query.get_or_404(username, description="User not found")
+        return render_template("user_info.html", user=get_user)
+    return "Not allow"
     
 @app.route('/logout')
 def logout():
