@@ -144,3 +144,10 @@ def not_found_error(error):
     
 if __name__ == '__main__':
     app.run(debug=True)
+
+//improvements
+# The add_feedback route seems to have some issues.
+# The form's username field is set manually, which might lead to inconsistencies. 
+# There's a flash message, but it might be better to use flash in conjunction with get_flashed_messages() in the template.
+# The update_feedback and delete_feedback routes are currently redirecting to user_info and is not yet implemented.
+# The not_found_error function receives an error parameter but does not use it. You can apply more generic error message which could be provided to users in the 404 template.
