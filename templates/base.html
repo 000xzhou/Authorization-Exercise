@@ -11,8 +11,10 @@
     <nav>
       <!-- Navigation links go here -->
       <a href="/">Home</a>
+      {% block login %}
       <a href="/register ">register</a>
-      <a href="/login">{% block login %}login{% endblock %}</a>
+      <a href="/login">login</a>
+      {% endblock %}
     </nav>
     {% with messages = get_flashed_messages() %} {% if messages %}
     <div>

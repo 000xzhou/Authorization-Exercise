@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block title %}User Info{% endblock %} {% block
-login %} {{user.username}}
+login %}
+<a href="//users/{{user.username}}">{{user.username}}</a>
 <a href="/logout">logout</a>
 {% endblock %}
 <!-- main clock content starts here -->
