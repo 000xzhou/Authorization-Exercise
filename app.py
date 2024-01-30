@@ -136,15 +136,22 @@ def add_feedback(username):
 @app.route('/feedback/<feedback_id>/update', methods=['GET', 'POST'])
 def update_feedback(feedback_id):
     user = session.get('username')
-    if user:
-    # Make sure that only the user who has written that feedback can see this form
-        return redirect(url_for("user_info", username=user))
+    feedback = Feedback.query.get_or_404(feedback_id)
+    if user and user == feedback.username: 
+        form = FeedbackForm(obj=feedback)
+        if form.validate_on_submit():
+            feedback.title = form.title.data
+            feedback.content = form.content.data
+            db.session.commit()
+            return redirect(url_for("user_info", username=user))
+        return render_template("feedback_form.html", form=form, action_url=url_for('update_feedback', feedback_id=feedback_id))
+    
     
 @app.route('/feedback/<feedback_id>/delete')
 def delete_feedback(feedback_id):
     user = session.get('username')
     feedback = Feedback.query.get_or_404(feedback_id)
-    if user == feedback.username: 
+    if user and user == feedback.username: 
         db.session.delete(feedback)
         db.session.commit()
     return redirect(url_for("user_info", username=user))

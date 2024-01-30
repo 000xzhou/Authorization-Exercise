@@ -11,8 +11,8 @@
 
   {% if "username" in session %} {% if session["username"] == feedback.username
   %}
-  <a class="link-btn" href="">edit</a>
-  <a class="link-btn" href="">delete</a>
+  <a class="link-btn" href="/feedback/{{feedback.id}}/update">edit</a>
+  <a class="link-btn" href="/feedback/{{feedback.id}}/delete">delete</a>
   {% endif %} {% endif %}
 </div>
 {% endfor %} {% endblock %}

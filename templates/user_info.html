@@ -16,7 +16,7 @@
   <h3>{{feedback.title}}</h3>
   <p>{{feedback.content}}</p>
   <p>by {{feedback.username}}</p>
-  <a class="link-btn" href="">edit</a>
+  <a class="link-btn" href="/feedback/{{feedback.id}}/update">edit</a>
   <a class="link-btn" href="/feedback/{{feedback.id}}/delete">delete</a>
 </div>
 {% endfor %} {% endblock %}
