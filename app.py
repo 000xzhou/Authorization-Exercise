@@ -31,7 +31,7 @@ def home():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if 'username' in session:
-        return redirect(url_for('user_info', username=session['username']))
+        return redirect(url_for("home"))
         
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -59,8 +59,8 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
-        return redirect(url_for('user_info', username=session['username']))
-    
+        return redirect(url_for("home"))
+
     form = LoginForm()
     error = request.args.get('error')
     if form.validate_on_submit():
