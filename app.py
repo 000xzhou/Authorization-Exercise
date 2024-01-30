@@ -145,7 +145,7 @@ def not_found_error(error):
 if __name__ == '__main__':
     app.run(debug=True)
 
-//improvements
+# //improvements
 # The add_feedback route seems to have some issues.
 # The form's username field is set manually, which might lead to inconsistencies. 
 # There's a flash message, but it might be better to use flash in conjunction with get_flashed_messages() in the template.
