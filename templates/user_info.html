@@ -8,10 +8,13 @@
   >add feedback</a
 >
 
-<h2 class="margin-top">Feedbacks:</h2>
+<h2 class="margin-top">Your Feedbacks:</h2>
 {% for feedback in feedbacks %}
 <div id="user-feedbacks" class="feedback-box">
   <h3>{{feedback.title}}</h3>
   <p>{{feedback.content}}</p>
+  <p>by {{feedback.username}}</p>
+  <a class="link-btn" href="">edit</a>
+  <a class="link-btn" href="">delete</a>
 </div>
 {% endfor %} {% endblock %}

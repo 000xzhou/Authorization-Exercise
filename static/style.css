@@ -16,8 +16,11 @@ nav {
   margin-bottom: 2rem;
 }
 .link-btn {
-  background-color: bisque;
-  padding: 1rem 2rem;
+  background-color: sandybrown;
+  padding: 0.5rem 1rem;
+}
+.link-btn:hover {
+  background-color: salmon;
 }
 .margin-bottom {
   margin-bottom: 1rem;

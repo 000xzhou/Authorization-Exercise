@@ -88,7 +88,7 @@ def user_info(username):
     # atm any login user can view any user 
     if user:
         get_user = User.query.get_or_404(username, description="User not found")
-        get_feedback = Feedback.query.all()
+        get_feedback = Feedback.query.filter_by(username=user)
         return render_template("user_info.html", user=get_user, feedbacks=get_feedback)
     return "Not allow"
     

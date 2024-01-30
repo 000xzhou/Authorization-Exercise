@@ -7,5 +7,12 @@
 <div id="user-feedbacks" class="feedback-box">
   <h3>{{feedback.title}}</h3>
   <p>{{feedback.content}}</p>
+  <p>by {{feedback.username}}</p>
+
+  {% if "username" in session %} {% if session["username"] == feedback.username
+  %}
+  <a class="link-btn" href="">edit</a>
+  <a class="link-btn" href="">delete</a>
+  {% endif %} {% endif %}
 </div>
 {% endfor %} {% endblock %}
