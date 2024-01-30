@@ -4,28 +4,8 @@
 - flask-wtf
 - load_dotenv
 
-## still need to hash the password
-
-## **Part 8: Make/Modify Routes For Users and Feedback**
-
-**GET */users/<username> :*** Show information about the given user. Show all of the feedback that the user has given. For each piece of feedback, display with a link to a form to edit the feedback and a button to delete the feedback. Have a link that sends you to a form to add more feedback and a button to delete the user **Make sure that only the user who is logged in can successfully view this page.**
-
-**POST */users/<username>/delete :*** Remove the user from the database and make sure to also delete all of their feedback. Clear any user information in the session and redirect to **_/_**. **Make sure that only the user who is logged in can successfully delete their account.**
-
-**GET */users/<username>/feedback/add :*** Display a form to add feedback  **Make sure that only the user who is logged in can see this form.**
-
-**POST */users/<username>/feedback/add :*** Add a new piece of feedback and redirect to /users/<username> — **Make sure that only the user who is logged in can successfully add feedback.**
-
-**GET */feedback/<feedback-id>/update :*** Display a form to edit feedback — [\*\*](https://curric.springboard.com/software-engineering-career-track/default/exercises/flask-feedback/index.html#id1)Make sure that only the user who has written that feedback can see this form \*\*
-
-**POST */feedback/<feedback-id>/update :*** Update a specific piece of feedback and redirect to /users/<username> — **Make sure that only the user who has written that feedback can update it.**
-
-**POST */feedback/<feedback-id>/delete :*** Delete a specific piece of feedback and redirect to /users/<username> — **Make sure that only the user who has written that feedback can delete it.**
-
 ## **Further Study**
 
-- Make sure your registration and authentication logic is being handled in your **_models.py_**
-- Make sure that if there is already a **_username_** in the session, do not allow users to see the register or login forms
 - Add a 404 page when a user or feedback can not be found as well as a 401 page when users are not authenticated or not authorized.
 - Add a column to the users table called **_is_admin_** which is a boolean that defaults to false. If that user is an admin, they should be able to add, update and delete any feedback for any user as well as delete users.
 - Make sure that if any of your form submissions fail, you display helpful error messages to the user about what went wrong.
