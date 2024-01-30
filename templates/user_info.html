@@ -7,7 +7,9 @@
 <a class="link-btn" href="/users/{{user.username}}/feedback/add"
   >add feedback</a
 >
-
+<a class="link-btn delete-account" href="/users/{{user.username}}/delete"
+  >DELETE account</a
+>
 <h2 class="margin-top">Your Feedbacks:</h2>
 {% for feedback in feedbacks %}
 <div id="user-feedbacks" class="feedback-box">
