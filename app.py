@@ -42,9 +42,9 @@ def register():
         new_user = User.register(username, password, email, first_name, last_name)
         db.session.add(new_user)
         db.session.commit()
-        session['username'] = new_user
+        session['username'] = new_user.username
         
-        return redirect(url_for('user_info'))
+        return redirect(url_for('user_info', username=new_user.username))
 
     return render_template("index.html", form=form, action_url=url_for('register'))
 
