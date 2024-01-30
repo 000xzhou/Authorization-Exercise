@@ -60,7 +60,7 @@ def login():
         username = form.username.data
         password = form.password.data
         # user = User.query.get_or_404(username, description="User not found")
-        user = User.query.get(username)
+        user = User.authenticate(username, password)
         if user:
             # check if user + pass is in database and is correct 
             if user.password == password :
@@ -92,8 +92,11 @@ def logout():
 def delete_username(username):
     # delete user 
     user = session.get('username')
+    if not user:
+        return redirect(url_for("home")) 
+        
     get_user = User.query.get_or_404(username)
-    
+
     if get_user.username == user:
         db.session.delete(get_user)
         db.session.commit()
@@ -104,6 +107,9 @@ def delete_username(username):
 @app.route('/users/<username>/feedback/add', methods=['GET', 'POST'])
 def add_feedback(username):
     user = session.get('username')
+    if not user: 
+        return redirect(url_for("home")) 
+    
     get_user = User.query.get_or_404(username)
     
     if get_user.username == user:
