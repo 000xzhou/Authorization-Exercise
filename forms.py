@@ -16,7 +16,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
     
 class FeedbackForm(FlaskForm):
-    username = StringField('', render_kw={"type": "hidden"})
     title = StringField('Title', validators=[InputRequired()])
     content = TextAreaField('Feedback', validators=[InputRequired()], render_kw={"rows": 5})
     submit = SubmitField('Submit')

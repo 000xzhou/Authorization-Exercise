@@ -117,27 +117,21 @@ def delete_username(username):
 @app.route('/users/<username>/feedback/add', methods=['GET', 'POST'])
 def add_feedback(username):
     user = session.get('username')
-    if not user: 
+    if user != username: 
+        flash("can't submit for other users")
         return redirect(url_for("home")) 
     
-    get_user = User.query.get_or_404(username)
-    
-    if get_user.username == user:
-        form = FeedbackForm(username=username)
-        if form.validate_on_submit():
-            # add to db
-            username = form.username.data
-            title = form.title.data
-            content = form.content.data
-            # add to db 
-            new_feedback = Feedback(username=username, title=title, content=content)
-            db.session.add(new_feedback)
-            db.session.commit()
-            return redirect(url_for("user_info", username=user))
-        return render_template("feedback_form.html", form=form, action_url=url_for('add_feedback', username=username), user = username)
-    else:
-        flash("can't submit for other users")
-        return redirect(url_for("home"))
+    form = FeedbackForm()
+    if form.validate_on_submit():
+        # add to db
+        title = form.title.data
+        content = form.content.data
+        # add to db 
+        new_feedback = Feedback(username=user, title=title, content=content)
+        db.session.add(new_feedback)
+        db.session.commit()
+        return redirect(url_for("user_info", username=user))
+    return render_template("feedback_form.html", form=form, action_url=url_for('add_feedback', username=username))
 
     
 @app.route('/feedback/<feedback_id>/update', methods=['GET', 'POST'])
