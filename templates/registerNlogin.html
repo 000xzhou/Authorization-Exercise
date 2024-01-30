@@ -6,11 +6,16 @@
 <form method="POST" action="{{ action_url }}">
   {{ form.hidden_tag() }}
   <!-- form  -->
-  {% for field in form if field.widget.input_type != 'hidden' %} {% if
-  field.type != 'SubmitField' %} {{ field.label }} {{ field }} {% for error in
-  field.errors %} {{ error }} {% endfor %} {% else %} {{ field }}
+  {% for field in form if field.widget.input_type != 'hidden' %}
+  <!-- Display the field is it's not submit field -->
+  {% if field.type != 'SubmitField' %}
+  <div>
+    {{ field.label }} {{ field }}
+    <span>{% for error in field.errors %} {{ error }}</span>
+  </div>
+  {% endfor %}
   <!-- Display the submit button without its label -->
-  {% if error %}{{error}}{% endif %} {% endif %} {% endfor %}
+  {% else %} {{ field }} {% endif %} {% endfor %}
 </form>
 
 {% endblock %}

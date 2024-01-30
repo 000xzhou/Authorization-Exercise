@@ -31,16 +31,17 @@ class User(db.Model):
         return cls(username=username, password=hashed_utf8, email=email, first_name=first_name, last_name=last_name)
     
     @classmethod
-    def authenticate(cls, username, pwd):
+    def authenticate(cls, username, password):
         """Validate that user exists & password is correct.
         Return user if valid; else return False.
         """
-        u = User.query.get(username)
-        if u and bcrypt.check_password_hash(u.password, pwd):
-            # return user instance
-            return u
+        u = User.query.filter_by(username=username).first()
+        if not u:
+            return None, "User does not exist" 
+        if bcrypt.check_password_hash(u.password, password):
+            return u, None
         else:
-            return False
+            return None, "Wrong password"
         
     feedbacks = db.relationship('Feedback', backref='user', cascade="all, delete-orphan")
     

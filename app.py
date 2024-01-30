@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for, flash, session, abort
 from models import db, connect_db, User, Feedback
+from sqlalchemy.exc import IntegrityError
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -43,7 +44,12 @@ def register():
         # add to db 
         new_user = User.register(username, password, email, first_name, last_name)
         db.session.add(new_user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            # Add an error message to the form
+            form.username.errors.append('Username or email taken, please pick another')
+            return render_template('registerNlogin.html', form=form, action_url=url_for('register'))
         session['username'] = new_user.username
         
         return redirect(url_for('user_info', username=new_user.username))
@@ -58,20 +64,21 @@ def login():
     form = LoginForm()
     error = request.args.get('error')
     if form.validate_on_submit():
-        # ensuring the user is authenticated
         username = form.username.data
         password = form.password.data
-        # user = User.query.get_or_404(username, description="User not found")
-        user = User.authenticate(username, password)
+        
+        # ensuring the user is authenticated
+        user, error_message = User.authenticate(username, password)
         if user:
-            # check if user + pass is in database and is correct 
-            if user.password == password :
-                session['username'] = user.username
-                return redirect(url_for('user_info', username=username))
-            else :
-                return redirect(url_for('login', error="password incorrect"))
+            session['username'] = user.username
+            return redirect(url_for('user_info', username=username))
         else:
-            return redirect(url_for('login', error="username not found"))
+            if error_message == "Wrong password":
+                form.password.errors = ["Wrong password"]
+            elif error_message == "User does not exist":
+                form.username.errors = ["User does not exist"]
+            else:
+                form.username.errors = ["Unknown error"]
             
     return render_template("registerNlogin.html", form=form ,action_url=url_for('login'), error=error)
 
