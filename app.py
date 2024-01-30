@@ -85,12 +85,11 @@ def login():
 @app.route('/users/<username>')
 def user_info(username):    
     user = session.get('username')
-    # atm any login user can view any user 
-    if user:
+    if user: 
         get_user = User.query.get_or_404(username, description="User not found")
         get_feedback = Feedback.query.filter_by(username=user)
         return render_template("user_info.html", user=get_user, feedbacks=get_feedback)
-    return "Not allow"
+    redirect(url_for("home"))
     
 @app.route('/logout')
 def logout():
@@ -102,11 +101,11 @@ def logout():
 def delete_username(username):
     # delete user 
     user = session.get('username')
-    if not user:
+    # if you enter your own link 
+    if user != username: 
         return redirect(url_for("home")) 
-        
+    # only can delete your own acount
     get_user = User.query.get_or_404(username)
-
     if get_user.username == user:
         db.session.delete(get_user)
         db.session.commit()
@@ -139,14 +138,16 @@ def update_feedback(feedback_id):
     user = session.get('username')
     if user:
     # Make sure that only the user who has written that feedback can see this form
-        return redirect(url_for("user_info", user=user))
+        return redirect(url_for("user_info", username=user))
     
-@app.route('/feedback/<feedback_id>/delete', methods=['POST'])
+@app.route('/feedback/<feedback_id>/delete')
 def delete_feedback(feedback_id):
     user = session.get('username')
-    if user:
-    # Make sure that only the user who has written that feedback can delete it.
-        return redirect(url_for("user_info", user=user))
+    feedback = Feedback.query.get_or_404(feedback_id)
+    if user == feedback.username: 
+        db.session.delete(feedback)
+        db.session.commit()
+    return redirect(url_for("user_info", username=user))
 
 @app.errorhandler(404)
 def not_found_error(error):
