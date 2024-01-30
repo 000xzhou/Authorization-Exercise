@@ -11,10 +11,13 @@
     <nav>
       <!-- Navigation links go here -->
       <a href="/">Home</a>
-      {% block login %}
+      {% if "username" in session %}
+      <a href="/users/{{session['username']}}">{{session['username']}}</a>
+      <a href="/logout">logout</a>
+      {% else %}
       <a href="/register ">register</a>
       <a href="/login">login</a>
-      {% endblock %}
+      {% endif %}
     </nav>
     {% with messages = get_flashed_messages() %} {% if messages %}
     <div>

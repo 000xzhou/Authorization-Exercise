@@ -39,12 +39,12 @@ def register():
         first_name = form.first_name.data
         last_name = form.last_name.data
         # add to db 
-        new_user = User(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+        new_user = User.register(username, password, email, first_name, last_name)
         db.session.add(new_user)
         db.session.commit()
-        session['username'] = username
+        session['username'] = new_user
         
-        return redirect(url_for('user_info', username=username))
+        return redirect(url_for('user_info'))
 
     return render_template("index.html", form=form, action_url=url_for('register'))
 
