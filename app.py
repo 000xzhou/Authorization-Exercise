@@ -23,7 +23,9 @@ from forms import RegistrationForm,LoginForm,FeedbackForm
 
 @app.route('/')
 def home():
-    return redirect(url_for("register"))
+    get_feedback = Feedback.query.all()
+    
+    return render_template("index.html", feedbacks=get_feedback )
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -46,7 +48,7 @@ def register():
         
         return redirect(url_for('user_info', username=new_user.username))
 
-    return render_template("index.html", form=form, action_url=url_for('register'))
+    return render_template("registerNlogin.html", form=form, action_url=url_for('register'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,7 +73,7 @@ def login():
         else:
             return redirect(url_for('login', error="username not found"))
             
-    return render_template("index.html", form=form ,action_url=url_for('login'), error=error)
+    return render_template("registerNlogin.html", form=form ,action_url=url_for('login'), error=error)
 
 @app.route('/users/<username>')
 def user_info(username):    
@@ -79,7 +81,8 @@ def user_info(username):
     # atm any login user can view any user 
     if user:
         get_user = User.query.get_or_404(username, description="User not found")
-        return render_template("user_info.html", user=get_user)
+        get_feedback = Feedback.query.all()
+        return render_template("user_info.html", user=get_user, feedbacks=get_feedback)
     return "Not allow"
     
 @app.route('/logout')

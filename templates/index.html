@@ -2,15 +2,10 @@
 
 <!-- main clock content starts here -->
 {% block content %}
-
-<form method="POST" action="{{ action_url }}">
-  {{ form.hidden_tag() }}
-  <!-- form  -->
-  {% for field in form if field.widget.input_type != 'hidden' %} {% if
-  field.type != 'SubmitField' %} {{ field.label }} {{ field }} {% for error in
-  field.errors %} {{ error }} {% endfor %} {% else %} {{ field }}
-  <!-- Display the submit button without its label -->
-  {% if error %}{{error}}{% endif %} {% endif %} {% endfor %}
-</form>
-
-{% endblock %}
+<h2 class="margin-top">Feedbacks:</h2>
+{% for feedback in feedbacks %}
+<div id="user-feedbacks" class="feedback-box">
+  <h3>{{feedback.title}}</h3>
+  <p>{{feedback.content}}</p>
+</div>
+{% endfor %} {% endblock %}

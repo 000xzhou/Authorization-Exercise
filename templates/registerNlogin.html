@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block title %}Home{% endblock %}
+
+<!-- main clock content starts here -->
+{% block content %}
+
+<form method="POST" action="{{ action_url }}">
+  {{ form.hidden_tag() }}
+  <!-- form  -->
+  {% for field in form if field.widget.input_type != 'hidden' %} {% if
+  field.type != 'SubmitField' %} {{ field.label }} {{ field }} {% for error in
+  field.errors %} {{ error }} {% endfor %} {% else %} {{ field }}
+  <!-- Display the submit button without its label -->
+  {% if error %}{{error}}{% endif %} {% endif %} {% endfor %}
+</form>
+
+{% endblock %}
